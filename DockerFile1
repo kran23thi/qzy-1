@@ -1,0 +1,17 @@
+FROM ubuntu:latest
+
+RUN apt-get update -y && \
+    apt-get install -y python-pip python-dev
+
+# We copy just the requirements.txt first to leverage Docker cache
+COPY ./requirements.txt /qzy/requirements.txt
+
+WORKDIR /qzy
+
+RUN pip install -r requirements.txt
+
+COPY . /qzy
+
+ENTRYPOINT [ "python" ]
+
+CMD [ "flask_01.py" ]
